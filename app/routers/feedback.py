@@ -1,6 +1,7 @@
 from operator import and_
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Response
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 from .. import models, schemas
@@ -23,4 +24,4 @@ def save_rating(payload: schemas.FeedbackRatingModel, db: Session = Depends(get_
         resp_content = "Thank you for your feedback. We will try to improve our product"
     elif add_rating.rating == 5:
         resp_content = "Thank you for loving our products!"
-    return {"response": resp_content}
+    return JSONResponse(content={"response": resp_content}, status_code=status.HTTP_201_CREATED)
